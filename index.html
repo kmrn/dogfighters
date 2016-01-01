@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>DOGFIGHTERS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="/styles/main.css">
 
@@ -12,22 +12,23 @@
 
   <!-- Scripts -->
   <script src="/javascripts/main.js"></script>
-  <script src="/javascripts/boot.js"></script>
-  <script src="/javascripts/preload.js"></script>
+  <!-- <script src="/javascripts/boot.js"></script> -->
+  <!-- <script src="/javascripts/preload.js"></script> -->
+  <!-- <script src="/javascripts/mainmenu.js"></script>
   <script>
     (function() {
-      var game = new Phaser.Game(800, 600, Phaser.AUTO, "game");
-      game.state.add("Boot", boot);
-      game.state.add("Preload", preload);
+      //game.state.add("Boot", boot);
+      //game.state.add("Preload", preload);
       game.state.add("MainMenu", mainMenu);
-      game.state.add("Loader", loader);
-      game.state.add("Brenna", brenna);
+      //game.state.add("Loader", loader);
+      //game.state.add("Brenna", brenna);
       //game.state.add("")
 
-      game.state.start("Boot");
+      game.state.start("MainMenu");
     })();
-  </script>
+  </script> -->
 </head>
 <body>
+  <div id="gameDiv"></div>
 </body>
 </html>
