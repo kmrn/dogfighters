@@ -6,12 +6,28 @@
 
   <link rel="stylesheet" href="/styles/main.css">
 
+  <!-- Utilities -->
   <script src="/javascripts/phaser.min.js"></script>
   <script src="/javascripts/firebase.js"></script>
-  
+
+  <!-- Scripts -->
   <script src="/javascripts/main.js"></script>
+  <script src="/javascripts/boot.js"></script>
+  <script src="/javascripts/preload.js"></script>
+  <script>
+    (function() {
+      var game = new Phaser.Game(800, 600, Phaser.AUTO, "game");
+      game.state.add("Boot", boot);
+      game.state.add("Preload", preload);
+      game.state.add("MainMenu", mainMenu);
+      game.state.add("Loader", loader);
+      game.state.add("Brenna", brenna);
+      //game.state.add("")
+
+      game.state.start("Boot");
+    })();
+  </script>
 </head>
 <body>
-  <div></div>
 </body>
 </html>
