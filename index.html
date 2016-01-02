@@ -12,21 +12,18 @@
 
   <!-- Scripts -->
   <script src="/javascripts/main.js"></script>
+  <script src="/javascripts/thecore.js"></script>
   <!-- <script src="/javascripts/boot.js"></script> -->
   <!-- <script src="/javascripts/preload.js"></script> -->
-  <!-- <script src="/javascripts/mainmenu.js"></script>
+  <!-- <script src="/javascripts/mainmenu.js"></script>-->
   <script>
-    (function() {
-      //game.state.add("Boot", boot);
-      //game.state.add("Preload", preload);
-      game.state.add("MainMenu", mainMenu);
-      //game.state.add("Loader", loader);
-      //game.state.add("Brenna", brenna);
-      //game.state.add("")
+    var game = new Phaser.Game(gameProperties.screenWidth, gameProperties.screenHeight, Phaser.AUTO, 'gameDiv');
 
-      game.state.start("MainMenu");
-    })();
-  </script> -->
+    game.state.add(states.theCore, theCore);
+    //game.state.add(states.mainMenu, mainMenu);
+
+    game.state.start(states.theCore);
+  </script>
 </head>
 <body>
   <div id="gameDiv"></div>
