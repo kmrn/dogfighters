@@ -23,8 +23,12 @@ var graphicAssets = {
 };
 
 var shipProperties = {
-    startX: gameProperties.screenWidth * 0.5,
-    startY: gameProperties.screenHeight * 0.5,
+    startX: 5000,
+    startY: 5000,
+    acceleration: 300,
+    drag: 50,
+    maxVelocity: 300,
+    angularVelocity: 200
 };
 
 function shipControl(game) {
@@ -36,8 +40,11 @@ function shipControl(game) {
 };
 
 function initGraphics(game) {
+    this.game.world.setBounds(0, 0, this.w, this.h);
     this.shipSprite = game.add.sprite(shipProperties.startX, shipProperties.startY, graphicAssets.ship.name);
+    this.shipSprite.angle = -90;
     this.shipSprite.anchor.set(0.5, 0.5);
+    this.game.camera.follow(this.shipSprite);
 };
 
 function initPhysics(game) {
@@ -49,7 +56,7 @@ function initPhysics(game) {
 };
 
 function initKeyboard(game) {
-    this.key_left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+    this.key_left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT) || game.input.keyboard.addKey(Phaser.Keyboard.A);
     this.key_right = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
     this.key_thrust = game.input.keyboard.addKey(Phaser.Keyboard.UP);
 };
