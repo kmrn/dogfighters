@@ -10,7 +10,8 @@ var gameProperties = {
 };
 
 var states = {
-    theCore: "The Core",
+    mainMenu: "mainMenu",
+    theCore: "theCore",
 };
 
 var graphicAssets = {
@@ -31,21 +32,36 @@ var shipProperties = {
     angularVelocity: 200
 };
 
+var bulletProperties = {
+    speed: 800,
+    interval: 250,
+    lifeSpan: 8000,
+    maxCount: 1000000000
+};
+
 function shipControl(game) {
     this.shipSprite;
 
     this.key_left;
     this.key_right;
     this.key_thrust;
-};
+    this.key_fire;
+
+    this.bulletGroup;
+    this.bulletInterval = 1;
+}
 
 function initGraphics(game) {
     this.game.world.setBounds(0, 0, this.w, this.h);
+
     this.shipSprite = game.add.sprite(shipProperties.startX, shipProperties.startY, graphicAssets.ship.name);
     this.shipSprite.angle = -90;
     this.shipSprite.anchor.set(0.5, 0.5);
+
+    this.bulletGroup = game.add.group();
+
     this.game.camera.follow(this.shipSprite);
-};
+}
 
 function initPhysics(game) {
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -53,13 +69,21 @@ function initPhysics(game) {
     game.physics.enable(this.shipSprite, Phaser.Physics.ARCADE);
     this.shipSprite.body.drag.set(shipProperties.drag);
     this.shipSprite.body.maxVelocity.set(shipProperties.maxVelocity);
-};
+
+    this.bulletGroup.enableBody = true;
+    this.bulletGroup.physicsBodyType = Phaser.Physics.ARCADE;
+    this.bulletGroup.createMultiple(30, graphicAssets.bullet.name);
+    this.bulletGroup.setAll('anchor.x', 0.5);
+    this.bulletGroup.setAll('anchor.y', 0.5);
+    this.bulletGroup.setAll('lifespan', bulletProperties.lifeSpan);
+}
 
 function initKeyboard(game) {
-    this.key_left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT) || game.input.keyboard.addKey(Phaser.Keyboard.A);
+    this.key_left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
     this.key_right = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
     this.key_thrust = game.input.keyboard.addKey(Phaser.Keyboard.UP);
-};
+    this.key_fire = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+}
 
 function checkPlayerInput(game) {
     if (this.key_left.isDown) {
@@ -75,4 +99,31 @@ function checkPlayerInput(game) {
     } else {
         this.shipSprite.body.acceleration.set(0);
     }
-};
+
+    if (this.key_fire.isDown) {
+        this.fire();
+    }
+}
+
+function fire() {
+    if (game.time.now > this.bulletInterval) {
+        var bullet = this.bulletGroup.getFirstExists(false);
+
+        if (bullet) {
+            var length = this.shipSprite.width * 0.5;
+            var x = this.shipSprite.x + (Math.cos(this.shipSprite.rotation) * length);
+            var y = this.shipSprite.y + (Math.sin(this.shipSprite.rotation) * length);
+
+            bullet.reset(x, y);
+            bullet.lifespan = bulletProperties.lifeSpan;
+            bullet.rotation = this.shipSprite.rotation;
+
+            game.physics.arcade.velocityFromRotation(this.shipSprite.rotation, bulletProperties.speed, bullet.body.velocity);
+            this.bulletInterval = game.time.now + bulletProperties.interval;
+        }
+    }
+}
+
+function destroyShip() {
+
+}

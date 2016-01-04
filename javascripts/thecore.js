@@ -2,7 +2,7 @@
 //
 
 var theCore = function() {
-
+    shipControl(this);
 };
 
 theCore.prototype = {

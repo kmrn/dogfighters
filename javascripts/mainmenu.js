@@ -1,22 +1,21 @@
 // main.js
 //
 
-BasicGame.MainMenu = function(game) {};
+var mainMenu = function(game) {
+    this.tf_start;
+};
 
 mainMenu.prototype = {
-    preload : function() {
-        this.load.image('title', 'assets/title.png');
+    create : function () {
+        var startInstructions = 'Click to Start -\n\nUP arrow key for thrust.\n\nLEFT and RIGHT arrow keys to turn.\n\nSPACE key to fire.';
+
+        this.tf_start = game.add.text(game.world.centerX, game.world.centerY, startInstructions, fontAssets.counterFontStyle);
+        this.tf_start.anchor.set(0.5, 0.5);
+
+        game.input.onDown.addOnce(this.startGame, this);
     },
 
-    create : function() {
-        // var gameTitle = this.game.add.sprite(160, 160, "gametitle");
-        // gameTitle.anchor.setTo(0.5, 0.5);
-        // var playButton = this.game.add.button(160, 320, "play", this.playTheGame, this);
-        // playButton.anchor.setTo(0.5, 0.5);
-        this.titleName = this.add.sprite(300, 300, 'title');
-    },
-
-    playTheGame : function() {
-        this.game.state.start("Brenna");
+    startGame : function () {
+        game.state.start(states.theCore);
     }
 }

@@ -4,21 +4,21 @@
   <title>DOGFIGHTERS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
+
   <!-- Utilities -->
   <script src="/javascripts/phaser.min.js"></script>
   <script src="/javascripts/firebase.js"></script>
 
   <!-- Scripts -->
   <script src="/javascripts/main.js"></script>
+  <script src="/javascripts/mainmenu.js"></script>
   <script src="/javascripts/thecore.js"></script>
-  <script>
-    var game = new Phaser.Game(gameProperties.screenWidth, gameProperties.screenHeight, Phaser.AUTO, 'gameDiv');
-
-    game.state.add(states.theCore, theCore);
-    //game.state.add(states.mainMenu, mainMenu);
-
-    game.state.start(states.theCore);
-  </script>
+  <script src="/javascripts/init.js"></script>
 </head>
 <body>
   <div id="gameDiv"></div>
