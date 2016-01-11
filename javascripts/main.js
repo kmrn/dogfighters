@@ -35,24 +35,26 @@ var shipProperties = {
 var bulletProperties = {
     speed: 800,
     interval: 250,
-    lifeSpan: 8000,
-    maxCount: 1000000000
+    lifeSpan: 2000,
+    maxCount: 10000
 };
 
 function shipControl(game) {
-    this.shipSprite;
+    this.shipSprite = shipSprite;
 
-    this.key_left;
-    this.key_right;
-    this.key_thrust;
-    this.key_fire;
+    this.key_left = key_left;
+    this.key_right = key_right;
+    this.key_thrust = key_thrust;
+    this.key_fire = key_fire;
 
-    this.bulletGroup;
+    this.bulletGroup = bulletGroup;
     this.bulletInterval = 1;
 }
 
 function initGraphics(game) {
+    // WORLD SETTINGS
     this.game.world.setBounds(0, 0, this.w, this.h);
+    this.renderer.renderSession.roundPixels = true;
 
     this.shipSprite = game.add.sprite(shipProperties.startX, shipProperties.startY, graphicAssets.ship.name);
     this.shipSprite.angle = -90;
@@ -60,7 +62,8 @@ function initGraphics(game) {
 
     this.bulletGroup = game.add.group();
 
-    this.game.camera.follow(this.shipSprite);
+    // CAMERA TYPE SETTINGS
+    this.camera.follow(this.shipSprite, 1);
 }
 
 function initPhysics(game) {
