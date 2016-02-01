@@ -7,8 +7,6 @@ var windowHeight = window.innerHeight || document.documentElement.clientHeight |
 var gameProperties = {
     screenWidth: windowWidth,
     screenHeight: windowHeight,
-    worldWidth: 10000,
-    worldHeight: 10000
 };
 
 var states = {
@@ -25,12 +23,9 @@ var graphicAssets = {
     asteroidSmall:{URL:'assets/asteroidSmall.png', name:'asteroidSmall'},
 };
 
-var randomX = Math.random() * gameProperties.worldWidth;
-var randomY = Math.random() * gameProperties.worldHeight;
-
 var shipProperties = {
-    startX: randomX,
-    startY: randomY,
+    startX: 5000,
+    startY: 5000,
     acceleration: 300,
     drag: 50,
     maxVelocity: 300,
@@ -41,10 +36,8 @@ var bulletProperties = {
     speed: 800,
     interval: 250,
     lifeSpan: 8000,
-    maxCount: 100
+    maxCount: 1000000000
 };
-
-var multiplayerRef = new Firebase("https://dogfighters.firebaseio.com/");
 
 function shipControl(game) {
     this.shipSprite;
@@ -59,29 +52,15 @@ function shipControl(game) {
 }
 
 function initGraphics(game) {
-    this.game.world.setBounds(0, 0, gameProperties.worldWidth, gameProperties.worldHeight);
+    this.game.world.setBounds(0, 0, this.w, this.h);
 
     this.shipSprite = game.add.sprite(shipProperties.startX, shipProperties.startY, graphicAssets.ship.name);
     this.shipSprite.angle = -90;
     this.shipSprite.anchor.set(0.5, 0.5);
 
-    this.allShips = {};
-
     this.bulletGroup = game.add.group();
 
     this.game.camera.follow(this.shipSprite);
-}
-
-function initPlayers(game, ref) {
-    // playerRef = ref.child("/players");
-    // playerRef.on("value", function(snapshot) {
-    //     snapshot.forEach(function(playerSnapshot) {
-    //         this.allShips[playerSnapshot.key()] = game.add.sprite(playerSnapshot.val().x, playerSnapshot.val().y, graphicAssets.ship.name);
-    //         console.log(playerSnapshot.val());
-    //     });
-    // }, function (errorObject) {
-    //     console.log("The read failed: " + errorObject.code);
-    // });
 }
 
 function initPhysics(game) {
@@ -124,23 +103,6 @@ function checkPlayerInput(game) {
     if (this.key_fire.isDown) {
         this.fire();
     }
-}
-
-function updatePlayers(game, ref) {
-    playerRef = ref.child("/players");
-    playerRef.on("value", function(snapshot) {
-        snapshot.forEach(function(playerSnapshot) {
-            if (typeof this.allShips[playerSnapshot.key()] === 'undefined') {
-                this.allShips[playerSnapshot.key()] = game.add.sprite(playerSnapshot.val().x, playerSnapshot.val().y, graphicAssets.ship.name);
-            }
-            this.allShips[playerSnapshot.key()].x = playerSnapshot.val().x;
-            this.allShips[playerSnapshot.key()].y = playerSnapshot.val().y;
-            this.allShips[playerSnapshot.key()].angle = playerSnapshot.val().rot;
-        });
-    }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-    });
-
 }
 
 function fire() {
