@@ -15,18 +15,21 @@ theCore.prototype = {
 
         game.load.image(graphicAssets.bullet.name, graphicAssets.bullet.URL);
         game.load.image(graphicAssets.ship.name, graphicAssets.ship.URL);
+
+        multiplayerRef = multiplayerRef.child("theCore");
     },
 
     create : function () {
-        var h = 10000;
-        var w = 10000;
-        this.game.add.tileSprite(0, 0, w, h, "background");
+        this.game.add.tileSprite(0, 0, gameProperties.worldWidth, gameProperties.worldHeight, "background");
+
         initGraphics(this);
+        initPlayers(this, multiplayerRef);
         initPhysics(this);
         initKeyboard(this);
     },
 
     update : function () {
         checkPlayerInput(this);
+        updatePlayers(this, multiplayerRef);
     }
 };
