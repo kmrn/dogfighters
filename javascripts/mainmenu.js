@@ -16,6 +16,13 @@ mainMenu.prototype = {
     },
 
     startGame : function () {
-        game.state.start(states.theCore);
+        multiplayerRef.authAnonymously(function(error, authData) {
+            if (error) {
+                console.log("Authentication Failed!", error);
+            } else {
+                console.log("Authenticated successfully with payload:", authData);
+                game.state.start(states.theCore);
+            }
+        });
     }
 };

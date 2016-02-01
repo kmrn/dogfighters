@@ -127,20 +127,28 @@ function checkPlayerInput(game) {
 }
 
 function updatePlayers(game, ref) {
-    playerRef = ref.child("/players");
+    playerRef = ref.child("/players/");
     playerRef.on("value", function(snapshot) {
         snapshot.forEach(function(playerSnapshot) {
-            if (typeof this.allShips[playerSnapshot.key()] === 'undefined') {
-                this.allShips[playerSnapshot.key()] = game.add.sprite(playerSnapshot.val().x, playerSnapshot.val().y, graphicAssets.ship.name);
+            if (playerSnapshot.key() !== ref.getAuth().uid) {
+                if (typeof this.allShips[playerSnapshot.key()] === 'undefined') {
+                    this.allShips[playerSnapshot.key()] = game.add.sprite(playerSnapshot.val().x, playerSnapshot.val().y, graphicAssets.ship.name);
+                    this.allShips[playerSnapshot.key()].anchor.set(0.5, 0.5);
+                }
+                this.allShips[playerSnapshot.key()].x = playerSnapshot.val().x;
+                this.allShips[playerSnapshot.key()].y = playerSnapshot.val().y;
+                this.allShips[playerSnapshot.key()].angle = playerSnapshot.val().rot;
             }
-            this.allShips[playerSnapshot.key()].x = playerSnapshot.val().x;
-            this.allShips[playerSnapshot.key()].y = playerSnapshot.val().y;
-            this.allShips[playerSnapshot.key()].angle = playerSnapshot.val().rot;
         });
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
 
+    playerRef.child(ref.getAuth().uid).set({
+        rot: this.shipSprite.angle,
+        x: this.shipSprite.x,
+        y: this.shipSprite.y
+    });
 }
 
 function fire() {
@@ -164,4 +172,8 @@ function fire() {
 
 function destroyShip() {
 
+}
+
+window.onbeforeunload = function(){
+   multiplayerRef.child("/players/" + multiplayerRef.getAuth().uid).remove();
 }
