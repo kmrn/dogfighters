@@ -3,7 +3,7 @@
 // All game states are added and initialized in this file.
 // New states should be added to this file in order to function properly.
 
-var game = new Phaser.Game(gameProperties.screenWidth, gameProperties.screenHeight, Phaser.WEBGL, 'gameDiv');
+var game = new Phaser.Game(gameProperties.screenWidth, gameProperties.screenHeight, Phaser.WEBGL);
 
 //********
 // STATES
