@@ -173,7 +173,3 @@ function fire() {
 function destroyShip() {
 
 }
-
-window.onbeforeunload = function(){
-   multiplayerRef.child("/players/" + multiplayerRef.getAuth().uid).remove();
-}
