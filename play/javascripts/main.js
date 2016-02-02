@@ -7,8 +7,8 @@ var windowHeight = window.innerHeight || document.documentElement.clientHeight |
 var gameProperties = {
     screenWidth: windowWidth,
     screenHeight: windowHeight,
-    worldWidth: 10000,
-    worldHeight: 10000
+    worldWidth: 5000,
+    worldHeight: 5000
 };
 
 var states = {
@@ -17,7 +17,7 @@ var states = {
 };
 
 var graphicAssets = {
-    ship:{URL:'assets/ship.png', name:'ship'},
+    ship:{URL:'assets/ship_small.png', name:'ship'},
     bullet:{URL:'assets/bullet.png', name:'bullet'},
 
     asteroidLarge:{URL:'assets/asteroidLarge.png', name:'asteroidLarge'},
