@@ -45,6 +45,7 @@ var bulletProperties = {
 };
 
 var multiplayerRef = new Firebase("https://dogfighters.firebaseio.com/theCore");
+var onlineShips = {};
 
 function shipControl(game) {
     this.shipSprite;
@@ -127,28 +128,13 @@ function checkPlayerInput(game) {
 }
 
 
-var onlineShips = {};
-var playerRef = multiplayerRef.child("/players/");
-playerRef.on("value", function(snapshot) {
-    snapshot.forEach(function(playerSnapshot) {
-        if (playerSnapshot.key() !== multiplayerRef.getAuth().uid) {
-            if (typeof onlineShips[playerSnapshot.key()] === 'undefined') {
-                onlineShips[playerSnapshot.key()] = game.add.sprite(playerSnapshot.val().x, playerSnapshot.val().y, graphicAssets.ship.name);
-                onlineShips[playerSnapshot.key()].anchor.set(0.5, 0.5);
-            }
-            onlineShips[playerSnapshot.key()].x = playerSnapshot.val().x;
-            onlineShips[playerSnapshot.key()].y = playerSnapshot.val().y;
-            onlineShips[playerSnapshot.key()].angle = playerSnapshot.val().rot;
-        }
-    });
-}, function (errorObject) {
-    console.log("The read failed: " + errorObject.code);
-});
+
+
 
 function updatePlayers(game, ref) {
     this.allShips = onlineShips;
 
-    playerRef.child(ref.getAuth().uid).set({
+    ref.child(ref.getAuth().uid).set({
         rot: this.shipSprite.angle,
         x: this.shipSprite.x,
         y: this.shipSprite.y
