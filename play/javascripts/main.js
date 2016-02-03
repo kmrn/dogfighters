@@ -44,7 +44,7 @@ var bulletProperties = {
     maxCount: 100
 };
 
-var multiplayerRef = new Firebase("https://dogfighters.firebaseio.com/");
+var multiplayerRef = new Firebase("https://dogfighters.firebaseio.com/theCore");
 
 function shipControl(game) {
     this.shipSprite;
