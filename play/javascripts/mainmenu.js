@@ -21,7 +21,7 @@ mainMenu.prototype = {
                 console.log("Authentication Failed!", error);
             } else {
                 console.log("Authenticated successfully with payload:", authData);
-                var disconnectRef = multiplayerRef.child("/theCore/players/" + multiplayerRef.getAuth().uid);
+                var disconnectRef = multiplayerRef.child("/players/" + multiplayerRef.getAuth().uid);
                 disconnectRef.onDisconnect().remove();
                 game.state.start(states.theCore);
             }
