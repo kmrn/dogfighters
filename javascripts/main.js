@@ -44,7 +44,18 @@ var bulletProperties = {
     maxCount: 100
 };
 
-var multiplayerRef = new Firebase("https://dogfighters.firebaseio.com/theCore");
+var fireConfig = {
+    apiKey: "AIzaSyCux1d6343s-TKXfBkh67N096aoOAWGYXc",
+    authDomain: "dogfighters.firebaseapp.com",
+    databaseURL: "https://dogfighters.firebaseio.com/theCore",
+    projectId: "project-5827678336179234004",
+    storageBucket: "project-5827678336179234004.appspot.com",
+    messagingSenderId: "83635569697"
+};
+
+firebase.initializeApp(fireConfig);
+var multiplayerRef = firebase;
+// var multiplayerRef = new Firebase("https://dogfighters.firebaseio.com/theCore");
 var onlineShips = {};
 
 function shipControl(game) {
