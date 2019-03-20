@@ -18,7 +18,7 @@ mainMenu.prototype = {
     startGame : function () {
         multiplayerRef.auth().signInAnonymouslyAndRetrieveData().then(function(authData) {
             console.log("Authenticated successfully with payload:", authData);
-            var disconnectRef = multiplayerRef.child("/players/" + multiplayerRef.auth().uid);
+            var disconnectRef = multiplayerRef.child("/players/" + authData.user.uid);
             disconnectRef.onDisconnect().remove();
             game.state.start(states.theCore);
         }).catch(function(error) {
