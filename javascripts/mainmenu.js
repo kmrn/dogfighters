@@ -16,14 +16,20 @@ mainMenu.prototype = {
     },
 
     startGame : function () {
-        multiplayerRef.authAnonymously(function(error, authData) {
-            if (error) {
-                console.log("Authentication Failed!", error);
+        multiplayerRef.auth().signInAnonymouslyAndRetrieveData().then(function(authData) {
+            console.log("Authenticated successfully with payload:", authData);
+            var disconnectRef = multiplayerRef.child("/players/" + multiplayerRef.getAuth().uid);
+            disconnectRef.onDisconnect().remove();
+            game.state.start(states.theCore);
+        }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+
+            if (errorCode === 'auth/operation-not-allowed') {
+                alert('You must enable Anonymous auth in the Firebase Console.');
             } else {
-                console.log("Authenticated successfully with payload:", authData);
-                var disconnectRef = multiplayerRef.child("/players/" + multiplayerRef.getAuth().uid);
-                disconnectRef.onDisconnect().remove();
-                game.state.start(states.theCore);
+                console.log("Authentication Failed!", error);
             }
         });
     }
